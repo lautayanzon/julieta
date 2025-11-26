@@ -20,7 +20,21 @@ function parseCSV(csv) {
     return lineas.slice(1).map(linea => {
         const valores = linea.split(",");
         let obj = {};
-        columnas.forEach((col, i) => obj[col.trim()] = valores[i]?.trim() ?? "");
+
+        columnas.forEach((col, i) => {
+            let valor = valores[i] ? valores[i].trim() : "";
+
+            // Limpieza específica para columnas de imagen
+            if (col.trim() === "imagen" || col.trim() === "imagen_final") {
+                valor = valor
+                    .replace(/^"+|"+$/g, "") // quita comillas iniciales y finales
+                    .replace(/\r/g, "")     // quita retorno de carro
+                    .trim();
+            }
+
+            obj[col.trim()] = valor;
+        });
+
         return obj;
     });
 }
@@ -29,7 +43,7 @@ function parseCSV(csv) {
 // 3. Renderizar usando TEMPLATE
 // -------------------------
 function renderRanking(datos) {
-    const cont = document.getElementById("app"); // el mismo contenedor de antes
+    const cont = document.getElementById("app");
     const template = document.getElementById("card-template");
 
     cont.innerHTML = "";
@@ -39,14 +53,12 @@ function renderRanking(datos) {
         .forEach(item => {
             const clone = template.content.cloneNode(true);
 
-            // Completar campos desde el CSV
             clone.querySelector(".card-img").src = item.imagen;
             clone.querySelector(".card-img").alt = item.nombre;
 
             clone.querySelector(".card-title").textContent = item.nombre;
             clone.querySelector(".card-score").textContent = `Puntaje: ${item.puntaje}`;
 
-            // comentario puede estar vacío
             if (item.comentario) {
                 const p = document.createElement("p");
                 p.className = "card-comment";

@@ -1,18 +1,34 @@
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
+    background: #f7f7f7;
 }
 
-#ranking .item {
-    border: 1px solid #ccc;
-    padding: 12px;
-    margin-bottom: 12px;
-    border-radius: 6px;
+.landing {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.item strong {
-    display: block;
-    font-size: 18px;
+.landing h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #ff4081;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #e73370;
 }
